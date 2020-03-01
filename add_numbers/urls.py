@@ -21,6 +21,6 @@ from .views import create_list_of_numbers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('summing_up', summing_up),
+    path('total', summing_up),
     path('new_list', create_list_of_numbers, name='list_receiver')
 ]

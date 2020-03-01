@@ -12,15 +12,21 @@ def create_list_of_numbers(request):
     number_list = ast.literal_eval(string_to_list)
     is_valid = check_if_list_is_valid(number_list)
     if not is_valid:
-        message = 'Invalid list of numbers. Please post a valid list of numbers for Python 3 to read or create'
-        return HttpResponse(message)
+        message = {
+            "title": 'Invalid list of numbers. Please post a valid list of numbers for Python 3 to read or create',
+            "status": 400
+        }
+        return HttpResponse(json.dumps(message), status=400)
 
-    return HttpResponse('list of number was successfully stored')
+    # Code to store the list in the database
+
+    return HttpResponse('list of numbers was successfully stored')
 
 
 def check_if_list_is_valid(number_list):
-    return True
+    return False
 
 
 def summing_up(request):
-    return HttpResponse('It runs fine')
+    a = 10
+    return HttpResponse(json.dumps({"total": a}))
