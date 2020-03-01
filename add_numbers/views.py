@@ -13,6 +13,7 @@ def create_list_of_numbers(request):
     body = json.loads(body_unicode)
     string_to_list = next(iter(body.values()))
     number_list = ast.literal_eval(string_to_list)
+    # If client is trusted then eval(string_to_list) can be used to handle more complex methods like "list(range(10))"
     is_valid = check_if_list_is_valid(number_list)
     if not is_valid:
         message = {
@@ -27,12 +28,22 @@ def create_list_of_numbers(request):
 
 
 def check_if_list_is_valid(number_list):
-    return False
+    status = True
+    if not isinstance(number_list, list):
+        status = False
+    if not all(isinstance(x, (int, float)) for x in number_list):
+        status = False
+
+    return status
 
 
 def summing_up(request):
+    numbers_to_add = list()
+
     # code to retrieve the list from the database
-    numbers_to_add = get_hardcoded_list()
+
+    if not numbers_to_add:
+        numbers_to_add = get_hardcoded_list()
     sum_up = SumUpNumbers(numbers_to_add)
     summary = sum_up.get_the_sum()
     return HttpResponse(json.dumps({"total": summary}))
