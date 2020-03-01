@@ -12,12 +12,11 @@ def create_list_of_numbers(request):
     body_unicode = request.body
     body = json.loads(body_unicode)
     string_to_list = next(iter(body.values()))
-    number_list = ast.literal_eval(string_to_list)
-    # If client is trusted then eval(string_to_list) can be used to handle more complex methods like "list(range(10))"
+    number_list = get_list_from_string(string_to_list)
     is_valid = check_if_list_is_valid(number_list)
     if not is_valid:
         message = {
-            "title": 'Invalid list of numbers. Please post a valid list of numbers for Python 3 to read or create',
+            "title": 'Invalid list of numbers. Please post a simple list of numbers for Python 3 to read or create',
             "status": 400
         }
         return HttpResponse(json.dumps(message), status=400)
@@ -27,14 +26,22 @@ def create_list_of_numbers(request):
     return HttpResponse('list of numbers was successfully stored')
 
 
-def check_if_list_is_valid(number_list):
-    status = True
-    if not isinstance(number_list, list):
-        status = False
-    if not all(isinstance(x, (int, float)) for x in number_list):
-        status = False
+def get_list_from_string(string_to_list):
+    try:
+        number_list = ast.literal_eval(string_to_list)
+        # If client is trusted then eval(string_to_list) can be used to handle complex methods like "list(range(10))"
+        return number_list
+    except ValueError:
+        return None
 
-    return status
+
+def check_if_list_is_valid(number_list):
+    if not all([number_list, isinstance(number_list, list)]):
+        return False
+    elif not all(isinstance(x, (int, float)) for x in number_list):
+        return False
+    else:
+        return True
 
 
 def summing_up(request):
