@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 
 from .views import summing_up
+from .views import create_list_of_numbers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('summing_up', summing_up)
+    path('summing_up', summing_up),
+    path('new_list', create_list_of_numbers, name='list_receiver')
 ]
