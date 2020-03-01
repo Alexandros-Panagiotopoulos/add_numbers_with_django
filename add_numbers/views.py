@@ -3,6 +3,9 @@ from rest_framework.decorators import api_view
 import json
 import ast
 
+from summing_up.models import ListsOfNumbers
+from summing_up.models import SumUpNumbers
+
 
 @api_view(['POST'])
 def create_list_of_numbers(request):
@@ -18,7 +21,7 @@ def create_list_of_numbers(request):
         }
         return HttpResponse(json.dumps(message), status=400)
 
-    # Code to store the list in the database
+    # Code to save the list in the database ListsOfNumbers
 
     return HttpResponse('list of numbers was successfully stored')
 
@@ -28,5 +31,14 @@ def check_if_list_is_valid(number_list):
 
 
 def summing_up(request):
-    a = 10
-    return HttpResponse(json.dumps({"total": a}))
+    # code to retrieve the list from the database
+    numbers_to_add = get_hardcoded_list()
+    sum_up = SumUpNumbers(numbers_to_add)
+    summary = sum_up.get_the_sum()
+    return HttpResponse(json.dumps({"total": summary}))
+
+
+def get_hardcoded_list():
+    numbers_to_add = list(range(10000001))
+    return numbers_to_add
+
