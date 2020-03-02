@@ -1,9 +1,9 @@
 from django.db import models
 
 
-class ListsOfNumbers(models.Model):
-    # Code to create the database
-    pass
+# class ListsOfNumbers(models.Model):
+#     # Code to create the database
+#     pass
 
 
 class SumUpNumbers:

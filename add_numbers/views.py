@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 import json
 import ast
 
-from summing_up.models import ListsOfNumbers
+# from summing_up.models import ListsOfNumbers
 from summing_up.models import SumUpNumbers
 
 
@@ -16,14 +16,14 @@ def create_list_of_numbers(request):
     is_valid = check_if_list_is_valid(number_list)
     if not is_valid:
         message = {
-            "title": 'Invalid list of numbers. Please post a simple list of numbers for Python 3 to read or create',
+            "title": 'Invalid list of numbers. Please post a simple list of numbers for Python 3 to read',
             "status": 400
         }
         return HttpResponse(json.dumps(message), status=400)
 
     # Code to save the list in the database ListsOfNumbers
-
-    return HttpResponse('list of numbers was successfully stored')
+    message = {"title": 'list of numbers was successfully stored', "status": 200}
+    return HttpResponse(json.dumps(message))
 
 
 def get_list_from_string(string_to_list):
