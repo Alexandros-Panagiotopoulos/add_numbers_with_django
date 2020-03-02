@@ -1,8 +1,6 @@
-from django.test import TestCase, SimpleTestCase, Client
+from django.test import TestCase, Client
 from django.urls import reverse
-from add_numbers import views
 import json
-import ast
 
 
 class TestModels(TestCase):
@@ -55,6 +53,3 @@ class TestModels(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.positive_message, response_message)
-
-
-
